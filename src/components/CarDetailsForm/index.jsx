@@ -7,9 +7,11 @@ import {
 } from "./constants";
 
 
-import { addCar, updateCarDetails } from "../../api";
+import { addCar, updateCarDetails, uploadImage } from "../../api";
 
-
+import { ImageInput } from "./ImageInput";
+import { CgCloseO } from "react-icons/cg";
+import { Dropdown } from "../Dropdown";
 
 const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
     const [features, setFeatures] = useState({});
@@ -61,9 +63,9 @@ const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
         })
     };
 
-    const handleBasicDetailChange = (e, isNumber = false) => {
+    const handleBasicDetailChange = (e, isNumber = false, fieldName = '') => {
         const { name, value } = e.target;
-        setBasicDetails((prev) => ({ ...prev, [name]: isNumber ? Number(value) : value }));
+        setBasicDetails((prev) => ({ ...prev, [name || fieldName]: isNumber ? Number(value) : value }));
     };
 
     const handleImageUpload = (e, type) => {
@@ -72,59 +74,67 @@ const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
     };
 
     const uploadImagesByCategory = async (category) => {
-        const selectedFiles = images[category];
-        if (!selectedFiles || selectedFiles.length === 0) return;
+        try {
+            const selectedFiles = images[category];
+            if (!selectedFiles || selectedFiles.length === 0) return;
 
-        const uploadedUrls = [];
 
-        for (let file of selectedFiles) {
-            const url = await uploadImage(file);
-            uploadedUrls.push(url);
+            const formData = new FormData();
+            selectedFiles.forEach((file) => {
+                formData.append("images", file);
+            });
+
+            const imageUploadResponse = await uploadImage(formData, false);
+            const uploadedUrls = imageUploadResponse?.data?.imageUrls || [];
+
+            return uploadedUrls;
+
+            // setImageUrls((prev) => ({ ...prev, [category]: uploadedUrls }));
+        } catch (error) {
+            console.log('Error while uploading images by category', error);
         }
-
-        setImageUrls((prev) => ({ ...prev, [category]: uploadedUrls }));
     };
 
     const handleUploadThumbNailImage = async (e) => {
         const file = e.target.files[0];
-        const url = await uploadImage(file);
-        setThumbNailImage(url);
-    };
-
-    const uploadImage = async (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append(
-            "upload_preset",
-            import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-        );
-        formData.append("folder", "cars");
-
+        if (!file) return;
         try {
-            const response = await fetch(
-                `${import.meta.env.VITE_CLOUDINARY_API_URL}/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/auto/upload`,
-                {
-                    method: "POST",
-                    body: formData,
-                }
-            );
-            const data = await response.json();
-            return data?.secure_url;
+            const formData = new FormData();
+            formData.append("image", file);
+            const uploadResponse = await uploadImage(formData);
+            const url = uploadResponse?.data?.imageUrl;
+            setThumbNailImage(url);
         } catch (error) {
-            console.error(`Upload failed for ${file.name}:`, error);
+            console.log('Error while uploading thumbnail image', error);
         }
     };
 
     const handleSubmit = async () => {
+        // Upload images
+        const uploadedImageUrls = { ...imageUrls };
+        if (images.interior.length > 0 || images.exterior.length > 0 || images.tyres.length > 0) {
+
+            for (const category of ["interior", "exterior", "tyres"]) {
+                if (images[category].length > 0) {
+                    const uploadedUrls = await uploadImagesByCategory(category);
+                    uploadedImageUrls[category] = [...(uploadedImageUrls[category] || []), ...uploadedUrls];
+                }
+            }
+        }
+
+        // Create payload
         const payload = {
             ...basicDetails,
             thumbnail: thumbNailImage,
-            features: JSON.stringify(features),
-            specifications: JSON.stringify(specs),
-            images: JSON.stringify(imageUrls),
+            features: features,
+            specifications: specs,
+            images: uploadedImageUrls,
         };
+        // Decide to add or update car details
         if (carDetails?.id) {
-            handleUpdateCarDetails(payload)
+            // eslint-disable-next-line no-unused-vars
+            const { updated_at, ...rest } = payload;
+            handleUpdateCarDetails(rest)
         }
         else {
             handleAddCar(payload)
@@ -133,21 +143,19 @@ const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
 
     const handleUpdateCarDetails = async (carDetails) => {
         try {
-            const response = await updateCarDetails(carDetails)
-            console.log('response after updating details', response);
+            await updateCarDetails(carDetails)
         }
         catch (error) {
             console.log('Error while adding', error)
-
-        } finally {
+        }
+        finally {
             handleClose()
         }
     }
 
     const handleAddCar = async (carData) => {
         try {
-            const response = await addCar(carData)
-            console.log('response after adding car', response);
+            await addCar(carData)
         }
         catch (error) {
             console.log('Error while adding', error)
@@ -155,6 +163,8 @@ const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
             handleClose()
         }
     }
+
+    console.log('specs', specs);
 
     return (
         <div className="p-4 max-h-[90vh] overflow-y-auto w-[80vw] mx-auto bg-white rounded shadow">
@@ -162,37 +172,55 @@ const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
             <h2 className="text-lg font-semibold mb-2">Basic Car Details</h2>
 
             <div>
-                <label htmlFor="thumbnail">Thumnail image</label>
-
                 {thumbNailImage ? (
-                    <img
-                        id="thumbnail"
-                        src={thumbNailImage}
-                        alt={`thumbnail-image`}
-                        className="w-32 h-auto object-cover rounded border"
+                    <>
+                        <img
+                            id="thumbnail"
+                            src={thumbNailImage}
+                            alt={`thumbnail-image`}
+                            className="w-32 h-auto object-cover rounded border"
+                        />
+                        <ImageInput
+                            label="Update image"
+                            id="thumbnailInput"
+                            onImageChange={handleUploadThumbNailImage}
+                        />
+                    </>
+                ) :
+                    <ImageInput
+                        label="Upload car image"
+                        id="thumbnailInput"
+                        onImageChange={handleUploadThumbNailImage}
                     />
-                ) : <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleUploadThumbNailImage(e)}
-                />}
+                }
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {basicData.map(({ label, name, isNumber = false, placeHolder = '' }) => (
+                {basicData.map(({ label, name, isNumber = false, placeHolder = '', isDropdown = false, options = [] }) => (
                     <div key={name} className="flex flex-col">
-                        <label htmlFor={name} className="text-sm font-medium mb-1">
-                            {label}
-                        </label>
-                        <input
-                            type="text"
-                            id={name}
-                            name={name}
-                            placeholder={placeHolder}
-                            className="border p-2 rounded"
-                            onChange={(e) => handleBasicDetailChange(e, isNumber)}
-                            value={basicDetails[name] || ""}
-                        />
+                        {isDropdown ? (
+                            <Dropdown
+                                label={label}
+                                options={options}
+                                defaultValue={basicDetails[name] || ""}
+                                onChange={(e) => handleBasicDetailChange(e, isNumber, name)}
+                            />
+                        ) :
+                            <>
+                                <label htmlFor={name} className="text-sm font-medium mb-1">
+                                    {label}
+                                </label>
+                                <input
+                                    type="text"
+                                    id={name}
+                                    name={name}
+                                    placeholder={placeHolder}
+                                    className="border p-2 rounded"
+                                    onChange={(e) => handleBasicDetailChange(e, isNumber)}
+                                    value={basicDetails[name] || ""}
+                                />
+                            </>
+                        }
                     </div>
                 ))}
             </div>
@@ -203,43 +231,64 @@ const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
                         <label className="text-sm font-medium mb-1 capitalize">
                             {type} Images
                         </label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            multiple
-                            onChange={(e) => handleImageUpload(e, type)}
+                        <ImageInput
+                            label={`${(images?.[type]?.length || imageUrls?.[type]?.length) ? 'Update' : 'Select'} ${type} images`}
+                            id={`${type}ImageInput`}
+                            onImageChange={(e) => handleImageUpload(e, type)}
+                            shouldAllowMultiple={true}
                         />
-                        <small className="text-xs text-gray-500">
-                            {images?.[type]?.length || 0} selected
-                        </small>
-                        <div className="mt-2 grid grid-cols-3 gap-2">
-                            {images?.[type]?.map((file, idx) => (
-                                <img
-                                    key={idx}
-                                    src={URL.createObjectURL(file)}
-                                    alt={`${type}-${idx}`}
-                                    className="w-full h-20 object-cover rounded border"
-                                />
-                            ))}
+                        <div className="grid grid-cols-3 gap-2">
                             {imageUrls?.[type]?.map((url, idx) => (
-                                <img
-                                    key={idx}
-                                    src={url}
-                                    alt={`${type}-${idx}`}
-                                    className="w-full h-20 object-cover rounded border"
-                                />
+                                <div className="relative">
+                                    <div className="absolute top-[-5px] right-[-5px] cursor-pointer bg-amber-50 rounded-full text-red-600">
+                                        <CgCloseO
+                                            onClick={() => {
+                                                setImageUrls((prev) => ({
+                                                    ...prev,
+                                                    [type]: prev[type].filter(
+                                                        (_, index) => index !== idx
+                                                    ),
+                                                }));
+                                            }}
+
+                                        />
+                                    </div>
+                                    <img
+                                        key={idx}
+                                        src={url}
+                                        alt={`${type}-${idx}`}
+                                        className="w-full h-20 object-cover rounded border"
+                                    />
+                                </div>
                             ))}
-                            <button
-                                onClick={() => uploadImagesByCategory(type)}
-                                className="mt-2 text-sm text-blue-600 underline hover:text-blue-800"
-                            >
-                                Upload {type} Images
-                            </button>
+                            {images?.[type]?.map((file, idx) => (
+                                <div className="relative">
+                                    <div className="absolute top-[-5px] right-[-5px] cursor-pointer text-red-600 bg-amber-50 rounded-full">
+                                        <CgCloseO
+                                            onClick={() => {
+                                                setImages((prev) => ({
+                                                    ...prev,
+                                                    [type]: prev[type].filter(
+                                                        (_, index) => index !== idx
+                                                    ),
+                                                }));
+                                            }}
+
+                                        />
+                                    </div>
+                                    <img
+                                        key={idx}
+                                        src={URL.createObjectURL(file)}
+                                        alt={`${type}-${idx}`}
+                                        className="w-full h-20 object-cover rounded border"
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 ))}
             </div>
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-xl font-bold mb-1 mt-4">
                 Car Feature & Specification Form
             </h2>
             {/* Features */}
@@ -290,25 +339,37 @@ const CarDetailForm = ({ carDetails = {}, handleClose = () => { } }) => {
             <div>
                 <h3 className="text-lg font-semibold">Specifications</h3>
                 {Object.entries(specificationsFields).map(([sectionKey, fields]) => (
-                    <div key={sectionKey} className="border rounded-lg p-4 shadow">
+                    <div key={sectionKey} className="border rounded-lg p-4 shadow my-2">
                         <h2 className="text-lg font-semibold mb-4 capitalize">
                             {sectionKey.replace(/-/g, " ")}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {fields.map(({ label, value, placeHolder = '' }) => (
+                            {fields.map(({ label, value, placeHolder = '', isDropdown = false, options = [] }) => (
                                 <div key={value} className="flex flex-col">
-                                    <label htmlFor={value} className="text-sm font-medium mb-1">
-                                        {label}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id={value}
-                                        name={value}
-                                        placeholder={placeHolder}
-                                        className="border p-2 rounded"
-                                        onChange={(e) => handleSpecChange(sectionKey, value, e.target.value)}
-                                        value={specs?.[value] || specs?.[sectionKey]?.[value] || ""}
-                                    />
+                                    {
+                                        isDropdown ? (
+                                            <Dropdown
+                                                label={label}
+                                                options={options}
+                                                defaultValue={specs?.[sectionKey]?.[value] || ""}
+                                                onChange={(e) => handleSpecChange(sectionKey, value, e.target.value)}
+                                            />
+                                        ) :
+                                            <>
+                                                <label htmlFor={value} className="text-sm font-medium mb-1">
+                                                    {label}
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id={value}
+                                                    name={value}
+                                                    placeholder={placeHolder}
+                                                    className="border p-2 rounded"
+                                                    onChange={(e) => handleSpecChange(sectionKey, value, e.target.value)}
+                                                    value={specs?.[value] || specs?.[sectionKey]?.[value] || ""}
+                                                />
+                                            </>
+                                    }
                                 </div>
                             ))}
                         </div>

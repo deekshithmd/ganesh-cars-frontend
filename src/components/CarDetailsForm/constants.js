@@ -1,11 +1,24 @@
 export const basicData = [
-    { label: "Brand", name: "brand", placeHolder: "Eg. Hyundai" },
+    { label: "Brand", name: "brand", placeHolder: "Eg. Hyundai", isDropdown: true, options: [{ label: 'Honda', value: 'honda' }, { label: 'Hyundai', value: 'hyundai' }, { label: 'Tata', value: 'tata' }, { label: 'Maruti', value: 'maruti' }, { label: 'Mahindra', value: 'mahindra' }, { label: 'Kia', value: 'kia' }, { label: 'Renault', value: 'renault' }] },
     { label: "Name", name: "name", placeHolder: "Eg. Creta" },
     { label: "Variant", name: "variant", placeHolder: "Eg. SX(O) Turbo" },
     { label: "KM Driven", name: "km_driven", isNumber: true, placeHolder: "Eg. 45,000" },
-    { label: "Fuel Type", name: "fuel_type", placeHolder: "Eg. Petrol" },
+    { label: "Fuel Type", name: "fuel_type", placeHolder: "Eg. Petrol", isDropdown: true, options: [{ label: 'Petrol', value: 'petrol' }, { label: 'Diesel', value: 'diesel' }, { label: 'Electric', value: 'electric' }, { label: 'Hybrid', value: 'hybrid' }, { label: 'CNG', value: 'cng' }] },
     { label: "Body Type", name: "body_type", placeHolder: "Eg. SUV" },
-    { label: "Transmission Type", name: "transmission_type", placeHolder: "Eg. Automatic" },
+    {
+        label: "Transmission Type", name: "transmission_type", placeHolder: "Eg. Automatic", isDropdown: true, options: [
+            { label: "Manual", value: "manual" },
+            { label: "Automatic", value: "automatic" },
+            { label: "AMT (Automated Manual Transmission)", value: "amt" },
+            { label: "CVT (Continuously Variable Transmission)", value: "cvt" },
+            { label: "DCT (Dual-Clutch Transmission)", value: "dct" },
+            { label: "DSG (Direct-Shift Gearbox)", value: "dsg" },
+            { label: "iMT (Intelligent Manual Transmission)", value: "imt" },
+            { label: "Tiptronic", value: "tiptronic" },
+            { label: "Semi-Automatic", value: "semi_automatic" },
+            { label: "Sequential", value: "sequential" }
+        ]
+    },
     { label: "Price", name: "price", isNumber: true, placeHolder: "Eg. 12,50,000" },
     { label: "Location", name: "location", placeHolder: "Eg. Bangalore" },
     { label: "Insurance", name: "insurance", placeHolder: "Eg. Valid till Dec 2025" },
@@ -266,17 +279,30 @@ export const featuresData = {
 
 export const specificationsFields = {
     "engine-and-transmission": [
-        { label: "Engine type", value: "engine-type", placeHolder: 'Eg. Petrol, Diesel, Electric' },
+        {
+            label: "Engine type", value: "engine-type", placeHolder: 'Eg. Flat, Diesel, V, Twin', isDropdown: true, options: [
+                { label: "Petrol", value: "petrol" },
+                { label: "Diesel", value: "diesel" },
+                { label: "CNG", value: "cng" },
+                { label: "LPG", value: "lpg" },
+                { label: "Hybrid (Petrol + Electric)", value: "hybrid-petrol-electric" },
+                { label: "Hybrid (Diesel + Electric)", value: "hybrid-diesel-electric" },
+                { label: "Mild Hybrid", value: "mild-hybrid" },
+                { label: "Plug-in Hybrid (PHEV)", value: "plug-in-hybrid" },
+                { label: "Electric (EV)", value: "electric" },
+                { label: "Hydrogen Fuel Cell", value: "hydrogen-fuel-cell" }
+            ]
+        },
         { label: "Max power", value: "max-power", placeHolder: 'Eg. 150 bhp' },
         { label: "Max torque", value: "max-torque", placeHolder: 'Eg. 200 Nm' },
-        { label: "No of cylinders", value: "no-of-cylinders", placeHolder: 'Eg. 4' },
-        { label: "Valves per cylinder", value: "valves-per-cylinder", placeHolder: 'Eg. 4' },
+        { label: "No of cylinders", value: "no-of-cylinders", placeHolder: 'Eg. 4', isDropdown: true, options: [{ label: '3 Cylinders', value: '3' }, { label: '4 Cylinders', value: '4' }, { label: '6 Cylinders', value: '6' }, { label: '8 Cylinders', value: '8' }] },
+        { label: "Valves per cylinder", value: "valves-per-cylinder", placeHolder: 'Eg. 4', isDropdown: true, options: [{ label: '2 Valves', value: '2' }, { label: '4 Valves', value: '4' }, { label: '5 Valves', value: '5' }] },
         { label: "Valve configuration", value: "valve-configuration", placeHolder: '' },
         { label: "Fuel supply system", value: "fuel-supply-system", placeHolder: 'Eg. CRDi' },
         { label: "Turbo charger", value: "turbo-charger", placeHolder: 'Eg. Yes' },
         { label: "Super charge", value: "super-charge", placeHolder: 'Eg. Yes' },
         { label: "Gearbox", value: "gearbox", placeHolder: 'Eg. 5-Speed' },
-        { label: "Drive type", value: "drive-type", placeHolder: 'Eg. 4WD' },
+        { label: "Drive type", value: "drive-type", placeHolder: 'Eg. 4WD', isDropdown: true, options: [{ label: '4 Wheen Drive', value: '4WD' }, { label: 'Front Wheel Drive', value: 'FWD' }, { label: 'Rear Wheel Drive', value: 'RWD' }, { label: 'All Wheel Drive', value: 'AWD' }] },
         { label: "Battery capacity", value: "battery-capacity", placeHolder: 'Eg. 84kWh' },
         { label: "Motor power", value: "motor-power", placeHolder: 'Eg. 239 kW' },
         { label: "Motor type", value: "motor-type", placeHolder: 'Eg. Permanent Magnet Synchronous Motor' },
@@ -303,15 +329,100 @@ export const specificationsFields = {
         { label: "Fast charging", value: "fast-charging", placeHolder: "Eg. Yes/No" },
     ],
     "suspension-steering-brakes": [
-        { label: "Front suspension", value: "front-suspension", placeHolder: "Eg. McPherson strut" },
-        { label: "Rear suspension", value: "rear-suspension", placeHolder: "Eg. Torsion beam" },
-        { label: "Shock absorbers type", value: "shock-absorbers-type", placeHolder: "Eg. Telescopic" },
-        { label: "Steering type", value: "steering-type", placeHolder: "Eg. Power steering" },
+        {
+            label: "Front suspension", value: "front-suspension", placeHolder: "Eg. McPherson strut", isDropdown: true, options: [
+                { label: "MacPherson Strut", value: "macpherson-strut" },
+                { label: "Double Wishbone", value: "double-wishbone" },
+                { label: "Torsion Bar", value: "torsion-bar" },
+                { label: "Multi-Link", value: "multi-link" },
+                { label: "Hydraulic Double Acting Shock Absorbers", value: "hydraulic-double-acting-shock-absorbers" },
+                { label: "Coil Spring", value: "coil-spring" },
+                { label: "Independent Suspension", value: "independent-suspension" },
+                { label: "Rigid Axle", value: "rigid-axle" },
+                { label: "Trailing Arm", value: "trailing-arm" },
+                { label: "Air Suspension", value: "air-suspension" }
+            ]
+        },
+        {
+            label: "Rear suspension", value: "rear-suspension", placeHolder: "Eg. Torsion beam", isDropdown: true, options: [
+                { label: "Torsion Beam", value: "torsion-beam" },
+                { label: "Twist Beam", value: "twist-beam" },
+                { label: "Trailing Arm", value: "trailing-arm" },
+                { label: "Multi-Link", value: "multi-link" },
+                { label: "Double Wishbone", value: "double-wishbone" },
+                { label: "Rigid Axle", value: "rigid-axle" },
+                { label: "Semi-Independent Suspension", value: "semi-independent" },
+                { label: "Leaf Spring", value: "leaf-spring" },
+                { label: "Coil Spring", value: "coil-spring" },
+                { label: "Air Suspension", value: "air-suspension" }
+            ]
+        },
+        {
+            label: "Shock absorbers type", value: "shock-absorbers-type", placeHolder: "Eg. Telescopic", isDropdown: true, options: [
+                { label: "Hydraulic", value: "hydraulic" },
+                { label: "Telescopic", value: "telescopic" },
+                { label: "Gas-Filled", value: "gas-filled" },
+                { label: "Gas-Charged", value: "gas-charged" },
+                { label: "Twin Tube", value: "twin-tube" },
+                { label: "Mono Tube", value: "mono-tube" },
+                { label: "Coil Spring Over Shock", value: "coil-spring-over-shock" },
+                { label: "Air Suspension", value: "air-suspension" },
+                { label: "Leaf Spring with Shock Absorber", value: "leaf-spring-with-shock-absorber" },
+                { label: "Adaptive / Electronic", value: "adaptive-electronic" }
+            ]
+        },
+        {
+            label: "Steering type", value: "steering-type", placeHolder: "Eg. Power steering", isDropdown: true, options: [
+                { label: "Power Steering", value: "power-steering" },
+                { label: "Electric Power Steering (EPS)", value: "electric-power-steering" },
+                { label: "Hydraulic Power Steering (HPS)", value: "hydraulic-power-steering" },
+                { label: "Electro-Hydraulic Power Steering (EHPS)", value: "electro-hydraulic-power-steering" },
+                { label: "Manual Steering", value: "manual-steering" },
+                { label: "Rack and Pinion", value: "rack-and-pinion" },
+                { label: "Recirculating Ball Steering", value: "recirculating-ball" }
+            ]
+        },
         { label: "Turning radius", value: "turning-radius", placeHolder: "Eg. 5.2 m" },
-        { label: "Steering column", value: "steering-column", placeHolder: "Eg. Tilt & telescopic" },
-        { label: "Steering gear type", value: "steering-gear-type", placeHolder: "Eg. Rack & pinion" },
-        { label: "Front brake type", value: "front-brake-type", placeHolder: "Eg. Disc" },
-        { label: "Rear brake type", value: "rear-brake-type", placeHolder: "Eg. Drum" },
+        {
+            label: "Steering column", value: "steering-column", placeHolder: "Eg. Tilt & telescopic", isDropdown: true, options: [
+                { label: "Collapsible Steering Column", value: "collapsible" },
+                { label: "Tilt Steering Column", value: "tilt" },
+                { label: "Telescopic Steering Column", value: "telescopic" },
+                { label: "Tilt and Telescopic Steering Column", value: "tilt-and-telescopic" },
+                { label: "Fixed Steering Column", value: "fixed" },
+                { label: "Energy Absorbing Steering Column", value: "energy-absorbing" },
+                { label: "Adjustable Steering Column", value: "adjustable" }
+            ]
+        },
+        {
+            label: "Steering gear type", value: "steering-gear-type", placeHolder: "Eg. Rack & pinion", isDropdown: true, options: [
+                { label: "Rack and Pinion", value: "rack-and-pinion" },
+                { label: "Recirculating Ball", value: "recirculating-ball" },
+                { label: "Worm and Roller", value: "worm-and-roller" },
+                { label: "Worm and Sector", value: "worm-and-sector" },
+                { label: "Cam and Lever", value: "cam-and-lever" },
+                { label: "Cam and Follower", value: "cam-and-follower" },
+                { label: "Ball and Nut", value: "ball-and-nut" }
+            ]
+        },
+        {
+            label: "Front brake type", value: "front-brake-type", placeHolder: "Eg. Disc", isDropdown: true, options: [
+                { label: "Disc", value: "disc" },
+                { label: "Ventilated Disc", value: "ventilated-disc" },
+                { label: "Drum", value: "drum" },
+                { label: "Solid Disc", value: "solid-disc" },
+                { label: "Carbon Ceramic Disc", value: "carbon-ceramic-disc" }
+            ]
+        },
+        {
+            label: "Rear brake type", value: "rear-brake-type", placeHolder: "Eg. Drum", isDropdown: true, options: [
+                { label: "Disc", value: "disc" },
+                { label: "Ventilated Disc", value: "ventilated-disc" },
+                { label: "Drum", value: "drum" },
+                { label: "Solid Disc", value: "solid-disc" },
+                { label: "Carbon Ceramic Disc", value: "carbon-ceramic-disc" }
+            ]
+        },
         { label: "Alloy wheel size Front", value: "alloy-wheel-size-front", placeHolder: "Eg. 17 inch" },
         { label: "Alloy wheel size Rear", value: "alloy-wheel-size-rear", placeHolder: "Eg. 17 inch" },
         { label: "Acceleration (0-100kmph secs)", value: "acceleration-0-100kmph-secs", placeHolder: "Eg. 9.5 s" },
@@ -321,23 +432,23 @@ export const specificationsFields = {
         { label: "Width", value: "width", placeHolder: "Eg. 1790 mm" },
         { label: "Height", value: "height", placeHolder: "Eg. 1630 mm" },
         { label: "Bootspace", value: "bootspace", placeHolder: "Eg. 450 L" },
-        { label: "Seating capacity", value: "seating-capacity", placeHolder: "Eg. 5" },
+        { label: "Seating capacity", value: "seating-capacity", placeHolder: "Eg. 5", isDropdown: true, options: [{ label: '5 Seater', value: '5' }, { label: '6 Seater', value: '6' }, { label: '7 Seater', value: '7' }, { label: '8 Seater', value: '8' }] },
         { label: "Ground clearance", value: "ground-clearance", placeHolder: "Eg. 190 mm" },
         { label: "Wheel base", value: "wheel-base", placeHolder: "Eg. 2600 mm" },
-        { label: "No of doors", value: "no-of-doors", placeHolder: "Eg. 5" },
+        { label: "No of doors", value: "no-of-doors", placeHolder: "Eg. 5", isDropdown: true, options: [{ label: '2 Doors', value: '2' }, { label: '3 Doors', value: '3' }, { label: '4 Doors', value: '4' }, { label: '5 Doors', value: '5' }] },
         { label: "Front tread", value: "front-tread", placeHolder: "Eg. 1530 mm" },
         { label: "Rear tread", value: "rear-tread", placeHolder: "Eg. 1540 mm" },
         { label: "Kerb weight", value: "kerb-weight", placeHolder: "Eg. 1350 kg" },
         { label: "Gross weight", value: "gross-weight", placeHolder: "Eg. 1900 kg" },
     ],
     "other-details": [
-        { label: "Accidental", value: "accidental", placeHolder: "Eg. Yes/No" },
-        { label: "Battery condition", value: "battery-condition", placeHolder: "Eg. Good/Average/Weak" },
-        { label: "Tyre condition", value: "tyre-condition", placeHolder: "Eg. New/Used/Worn" },
-        { label: "Vehicle certified", value: "vehicle-certified", placeHolder: "Eg. Yes/No" },
-        { label: "Spare wheel and box", value: "spare-wheel-and-box", placeHolder: "Eg. Yes/No" },
-        { label: "Global NCAP rating", value: "global-ncap-rating", placeHolder: "Eg. 4 Star" },
-        { label: "No of airbags", value: "no-of-airbags", placeHolder: "Eg. 6" },
+        { label: "Accidental", value: "accidental", placeHolder: "Eg. Yes/No", isDropdown: true, options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }] },
+        { label: "Battery condition", value: "battery-condition", placeHolder: "Eg. Good/Average/Weak", isDropdown: true, options: [{ label: 'Good', value: 'good' }, { label: 'Average', value: 'average' }, { label: 'Weak', value: 'weak' }] },
+        { label: "Tyre condition", value: "tyre-condition", placeHolder: "Eg. New/Used/Worn", isDropdown: true, options: [{ label: 'New', value: 'new' }, { label: 'Used', value: 'used' }, { label: 'Worn', value: 'worn' }] },
+        { label: "Vehicle certified", value: "vehicle-certified", placeHolder: "Eg. Yes/No", isDropdown: true, options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }] },
+        { label: "Spare wheel and box", value: "spare-wheel-and-box", placeHolder: "Eg. Yes/No", isDropdown: true, options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }] },
+        { label: "Global NCAP rating", value: "global-ncap-rating", placeHolder: "Eg. 4 Star", isDropdown: true, options: [{ label: '5 Star', value: '5-star' }, { label: '4 Star', value: '4-star' }, { label: '3 Star', value: '3-star' }, { label: '2 Star', value: '2-star' }, { label: '1 Star', value: '1-star' }, { label: 'No Rating', value: '0-star' }] },
+        { label: "No of airbags", value: "no-of-airbags", placeHolder: "Eg. 6", isDropdown: true, options: [{ label: 'No Airbags', value: '0' }, { label: '2 Airbags', value: '2' }, { label: '4 Airbags', value: '4' }, { label: '6 Airbags', value: '6' }, { label: '7 Airbags', value: '7' }, { label: '8 Airbags', value: '8' }, { label: '10+ Airbags', value: '10+' }] },
     ],
 
 };

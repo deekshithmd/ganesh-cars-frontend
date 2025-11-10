@@ -1,4 +1,4 @@
-import { CAR_SPECIFICATION_LIST } from "../../constants";
+import { CAR_SPECIFICATION_LIST, DROPDOWN_VALUES_MAP } from "../../constants";
 
 export const SpecificationList = (props) => {
     const { specificationList = {}, specificationCategory = "" } = props;
@@ -6,10 +6,11 @@ export const SpecificationList = (props) => {
     return (
         <div className="grid grid-cols-2 gap-4">
             {Object.keys(specificationList)?.map((item, index) => {
+                console.log(item, specificationList?.[item]);
                 return (
                     <div className="grid grid-cols-2 gap-2" key={index}>
                         <span className="text-sm break-words font-medium text-gray-700">{CAR_SPECIFICATION_LIST?.[specificationCategory]?.[item]}</span>
-                        <span className="text-sm text-gray-800">{specificationList?.[item]}</span>
+                        <span className="text-sm text-gray-800">{DROPDOWN_VALUES_MAP?.[specificationList?.[item]] || specificationList?.[item]}</span>
                     </div>
                 );
             })}

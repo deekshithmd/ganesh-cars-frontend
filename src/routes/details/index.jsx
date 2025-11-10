@@ -14,6 +14,7 @@ import { SpecificationList } from "../../components/SpecificationList";
 import { getNumberInLocalString, getNumberInStringFormat, getOrdinalNumber, getTitleCase } from "../../utils";
 
 import { getCarById } from "../../api";
+import { DROPDOWN_VALUES_MAP } from "../../constants";
 
 const CarDetails = () => {
     const [carDetails, setCarDetails] = useState({});
@@ -112,9 +113,9 @@ const CarDetails = () => {
                         </div>
                     )}
                     <div className="w-full absolute z-10 bottom-0 right-0 left-0 flex items-center justify-center gap-x-8 mb-3">
-                        <div
+                        {carDetails?.images?.exterior?.length && <div
                             className="w-18 h-18 rounded-full overflow-hidden cursor-pointer border-3 border-blue-700"
-                            onClick={() => setImageList(carDetails?.images?.exterior)}
+                            onClick={() => setImageList(carDetails?.images?.exterior || [])}
                         >
                             <img
                                 src={carDetails?.images?.exterior?.[0]}
@@ -122,26 +123,31 @@ const CarDetails = () => {
                                 className="w-full h-full object-cover"
                             />
                         </div>
-                        <div
-                            className="w-18 h-18 rounded-full overflow-hidden cursor-pointer border-3 border-blue-700"
-                            onClick={() => setImageList(carDetails?.images?.interior)}
-                        >
-                            <img
-                                src={carDetails?.images?.interior?.[0]}
-                                alt={carDetails?.name}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                        <div
-                            className="w-18 h-18 rounded-full overflow-hidden cursor-pointer border-3 border-blue-700"
-                            onClick={() => setImageList(carDetails?.images?.tyres)}
-                        >
-                            <img
-                                src={carDetails?.images?.tyres?.[0]}
-                                alt={carDetails?.name}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
+                        }
+                        {carDetails?.images?.interior?.length &&
+                            <div
+                                className="w-18 h-18 rounded-full overflow-hidden cursor-pointer border-3 border-blue-700"
+                                onClick={() => setImageList(carDetails?.images?.interior || [])}
+                            >
+                                <img
+                                    src={carDetails?.images?.interior?.[0]}
+                                    alt={carDetails?.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        }
+                        {carDetails?.images?.tyres?.length &&
+                            <div
+                                className="w-18 h-18 rounded-full overflow-hidden cursor-pointer border-3 border-blue-700"
+                                onClick={() => setImageList(carDetails?.images?.tyres || [])}
+                            >
+                                <img
+                                    src={carDetails?.images?.tyres?.[0]}
+                                    alt={carDetails?.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="w-full shadow rounded-lg p-6">
@@ -155,12 +161,12 @@ const CarDetails = () => {
                         <OverviewItem
                             icon="fuel"
                             title="Fuel type"
-                            value={carDetails?.fuel_type}
+                            value={DROPDOWN_VALUES_MAP[carDetails?.fuel_type] || carDetails?.fuel_type}
                         />
                         <OverviewItem
                             icon="transmission"
                             title="Transmission"
-                            value={carDetails?.transmission_type}
+                            value={DROPDOWN_VALUES_MAP[carDetails?.transmission_type] || carDetails?.transmission_type}
                         />
                         <OverviewItem
                             icon="engine"
@@ -259,7 +265,7 @@ const CarDetails = () => {
                 </div>
                 <p className="flex items-center gap-x-2"><GrLocation /><span>{carDetails?.location}</span></p>
                 <p className="font-semibold text-2xl">{`₹ ${getNumberInStringFormat(carDetails?.price)}`}</p>
-                <button className="w-full px-10 py-3 bg-blue-800 text-xl text-white rounded-lg">Contact For Booking</button>
+                <button className="w-full px-10 py-3 bg-blue-800 text-xl text-white rounded-lg cursor-pointer hover:bg-blue-900">Contact For Booking</button>
             </div>
         </div>
     );

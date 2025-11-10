@@ -1,5 +1,5 @@
 import { userLogin } from "../../api";
-import CheckAuth from "../../components/CheckAuth";
+import { CheckAuth } from "../../components/CheckAuth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -9,11 +9,11 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const email = formData.get('email');
+        const username = formData.get('email');
         const password = formData.get('password');
 
         try {
-            const response = await userLogin({ email, password });
+            const response = await userLogin({ username, password });
             if (response.status === 200) {
                 const data = response?.data;
                 localStorage.setItem('auth_token', data.token);

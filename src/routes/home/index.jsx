@@ -1,21 +1,36 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { BUDGET_TABS, CARS, FUEL_TYPE_TABS, LOGOS, OWNERSHIP_TABS, TESTIMONIALS } from "../../constants";
+import { BUDGET_TAB_OPTIONS, FUEL_TYPE_TAB_OPTIONS, LOGOS, OWNERSHIP_TAB_OPTIONS, TESTIMONIALS } from "../../constants";
 import Car from "../../../public/innova.png";
 
 import { Tabs } from "../../components/Tab";
 import { useFetchCars } from "../../hooks/useFetchCars";
+import { useCarDataStore } from "../../store/useAppStore";
 
 
 const Home = () => {
-    const [selectedBudgetTab, setSelectedBudgetTab] = useState(BUDGET_TABS[0]);
-    const [selectedOwnershipTab, setSelectedOwnershipTab] = useState(OWNERSHIP_TABS[0])
-    const [selectedFuelTypeTab, setSelectedFuelTypeTab] = useState(FUEL_TYPE_TABS[0])
+    const [selectedBudgetTab, setSelectedBudgetTab] = useState(BUDGET_TAB_OPTIONS[0]);
+    const [selectedOwnershipTab, setSelectedOwnershipTab] = useState(OWNERSHIP_TAB_OPTIONS[0])
+    const [selectedFuelTypeTab, setSelectedFuelTypeTab] = useState(FUEL_TYPE_TAB_OPTIONS[0])
+
+    const { allCars } = useCarDataStore();
 
     const navigate = useNavigate();
 
     useFetchCars();
+
+    const BUDGET_TABS = useMemo(() =>
+        BUDGET_TAB_OPTIONS.filter(tab => allCars?.some(car => car?.price >= tab?.min && car?.price <= tab?.max))
+        , [allCars]);
+
+    const FUEL_TYPE_TABS = useMemo(() =>
+        FUEL_TYPE_TAB_OPTIONS.filter(tab => allCars?.some(car => car?.fuel_type?.toLowerCase()?.includes(tab?.value)))
+        , [allCars]);
+
+    const OWNERSHIP_TABS = useMemo(() =>
+        OWNERSHIP_TAB_OPTIONS.filter(tab => allCars?.some(car => car?.ownership === tab?.value))
+        , [allCars]);
 
     const handleViewAllCarsClick = () => {
         navigate("/listing")
@@ -76,7 +91,7 @@ const Home = () => {
                         tabs={BUDGET_TABS}
                         selectedTab={selectedBudgetTab}
                         handleTabChange={setSelectedBudgetTab}
-                        tabContent={CARS.filter(
+                        tabContent={allCars?.filter(
                             (car) =>
                                 car?.price >= selectedBudgetTab?.min &&
                                 car?.price <= selectedBudgetTab?.max
@@ -89,9 +104,9 @@ const Home = () => {
                         tabs={FUEL_TYPE_TABS}
                         selectedTab={selectedFuelTypeTab}
                         handleTabChange={setSelectedFuelTypeTab}
-                        tabContent={CARS.filter(
+                        tabContent={allCars?.filter(
                             (car) =>
-                                car?.fuel_type === selectedFuelTypeTab?.value
+                                car?.fuel_type?.toLowerCase()?.includes(selectedFuelTypeTab?.value)
                         )}
                     />
                 </div>
@@ -101,7 +116,7 @@ const Home = () => {
                         tabs={OWNERSHIP_TABS}
                         selectedTab={selectedOwnershipTab}
                         handleTabChange={setSelectedOwnershipTab}
-                        tabContent={CARS.filter(
+                        tabContent={allCars?.filter(
                             (car) => car?.ownership === selectedOwnershipTab?.value
                         )}
                     />

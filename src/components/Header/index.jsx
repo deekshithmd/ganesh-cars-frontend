@@ -5,7 +5,6 @@ export const Header = () => {
                 <span className="font-bold text-2xl">Sri Ganesh</span>
             </a>
             <div className="flex items-center gap-2">
-
                 <a
                     href="https://api.whatsapp.com/send?phone=919901103469&text=Hi%2C%20I%20am%20interested%20in%20one%20of%20your%20cars"
                     target="_blank"

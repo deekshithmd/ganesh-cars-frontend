@@ -2,8 +2,8 @@ import axios from "axios"
 
 export const addCar = async (carData) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_SERVER_URL}/cars`, { ...carData })
-        console.log('response', response);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_SERVER_URL}/cars`, { ...carData }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('auth_token') } })
+        return response;
     }
     catch (error) {
         console.log('Error while adding car', error);
@@ -37,7 +37,7 @@ export const getCarById = async (id) => {
 
 export const updateCarDetails = async (carDetails) => {
     try {
-        const response = await axios.put(`${import.meta.env.VITE_BACKEND_SERVER_URL}/cars/${carDetails?.id}`, carDetails)
+        const response = await axios.put(`${import.meta.env.VITE_BACKEND_SERVER_URL}/cars/${carDetails?.id}`, carDetails, { headers: { Authorization: 'Bearer ' + localStorage.getItem('auth_token') } })
         return response;
     }
     catch (error) {
@@ -47,7 +47,7 @@ export const updateCarDetails = async (carDetails) => {
 
 export const deleteCar = async (id) => {
     try {
-        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_SERVER_URL}/cars/${id}`)
+        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_SERVER_URL}/cars/${id}`, { headers: { Authorization: 'Bearer ' + localStorage.getItem('auth_token') } })
         return response;
     }
     catch (error) {
@@ -55,9 +55,20 @@ export const deleteCar = async (id) => {
     }
 }
 
+export const uploadImage = async (formData, isSingle = true) => {
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_SERVER_URL}/upload/${isSingle ? 'single' : 'multiple'}`, formData, { headers: { 'Content-Type': 'multipart/form-data', Authorization: 'Bearer ' + localStorage.getItem('auth_token') } });
+        return response;
+    }
+    catch (error) {
+        console.log('Error while uploading image', error);
+    }
+}
+
+
 export const userLogin = async (userData) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_SERVER_URL}/login`, userData);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_SERVER_URL}/auth/login`, userData,);
         return response;
     }
     catch (error) {
