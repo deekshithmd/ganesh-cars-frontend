@@ -297,36 +297,134 @@ export const specificationsFields = {
         { label: "Max torque", value: "max-torque", placeHolder: 'Eg. 200 Nm' },
         { label: "No of cylinders", value: "no-of-cylinders", placeHolder: 'Eg. 4', isDropdown: true, options: [{ label: '3 Cylinders', value: '3' }, { label: '4 Cylinders', value: '4' }, { label: '6 Cylinders', value: '6' }, { label: '8 Cylinders', value: '8' }] },
         { label: "Valves per cylinder", value: "valves-per-cylinder", placeHolder: 'Eg. 4', isDropdown: true, options: [{ label: '2 Valves', value: '2' }, { label: '4 Valves', value: '4' }, { label: '5 Valves', value: '5' }] },
-        { label: "Valve configuration", value: "valve-configuration", placeHolder: '' },
-        { label: "Fuel supply system", value: "fuel-supply-system", placeHolder: 'Eg. CRDi' },
-        { label: "Turbo charger", value: "turbo-charger", placeHolder: 'Eg. Yes' },
-        { label: "Super charge", value: "super-charge", placeHolder: 'Eg. Yes' },
-        { label: "Gearbox", value: "gearbox", placeHolder: 'Eg. 5-Speed' },
+        {
+            label: "Valve configuration", value: "valve-configuration", placeHolder: '', isDropdown: true, options: [
+                { label: "SOHC (Single Overhead Camshaft)", value: "sohc" },
+                { label: "DOHC (Double Overhead Camshaft)", value: "dohc" },
+                { label: "OHV (Overhead Valve)", value: "ohv" },
+                { label: "OHC (Overhead Camshaft)", value: "ohc" },
+                { label: "Pushrod", value: "pushrod" },
+                { label: "SV (Side Valve)", value: "sv" },
+            ]
+        },
+        {
+            label: "Fuel supply system", value: "fuel-supply-system", placeHolder: 'Eg. CRDi', isDropdown: true, options: [
+                { label: "MPFI (Multi Point Fuel Injection)", value: "mpfi" },
+                { label: "SPFI (Single Point Fuel Injection)", value: "spfi" },
+                { label: "Direct Injection (DI)", value: "direct-injection" },
+                { label: "CRDI (Common Rail Direct Injection)", value: "crdi" },
+                { label: "TDI (Turbocharged Direct Injection)", value: "tdi" },
+                { label: "GDI (Gasoline Direct Injection)", value: "gdi" },
+                { label: "Carburetor", value: "carburetor" },
+                { label: "IDI (Indirect Injection)", value: "idi" },
+                { label: "Turbo MPFI", value: "turbo-mpfi" },
+                { label: "Electronic Fuel Injection (EFI)", value: "efi" }
+            ]
+        },
+        { label: "Turbo charger", value: "turbo-charger", placeHolder: 'Eg. Yes', isDropdown: true, options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }] },
+        { label: "Super charge", value: "super-charge", placeHolder: 'Eg. Yes', isDropdown: true, options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }] },
+        {
+            label: "Gearbox", value: "gearbox", placeHolder: 'Eg. 5-Speed', isDropdown: true, options: [
+                { label: "4 Speed", value: "4-speed" },
+                { label: "5 Speed", value: "5-speed" },
+                { label: "6 Speed", value: "6-speed" },
+                { label: "7 Speed", value: "7-speed" },
+                { label: "8 Speed", value: "8-speed" },
+                { label: "9 Speed", value: "9-speed" },
+                { label: "10 Speed", value: "10-speed" },
+                { label: "Variable Speed (CVT)", value: "variable-speed-cvt" }
+            ]
+        },
         { label: "Drive type", value: "drive-type", placeHolder: 'Eg. 4WD', isDropdown: true, options: [{ label: '4 Wheen Drive', value: '4WD' }, { label: 'Front Wheel Drive', value: 'FWD' }, { label: 'Rear Wheel Drive', value: 'RWD' }, { label: 'All Wheel Drive', value: 'AWD' }] },
         { label: "Battery capacity", value: "battery-capacity", placeHolder: 'Eg. 84kWh' },
         { label: "Motor power", value: "motor-power", placeHolder: 'Eg. 239 kW' },
-        { label: "Motor type", value: "motor-type", placeHolder: 'Eg. Permanent Magnet Synchronous Motor' },
+        {
+            label: "Motor type", value: "motor-type", placeHolder: 'Eg. Permanent Magnet Synchronous Motor', isDropdown: true, options: [
+                { label: "Permanent Magnet Synchronous Motor (PMSM)", value: "permanent-magnet-synchronous-motor" },
+                { label: "AC Induction Motor (Asynchronous Motor)", value: "ac-induction-motor" },
+                { label: "Brushless DC Motor (BLDC)", value: "brushless-dc-motor" },
+                { label: "DC Series Motor", value: "dc-series-motor" },
+                { label: "Switched Reluctance Motor (SRM)", value: "switched-reluctance-motor" },
+                { label: "Synchronous Reluctance Motor (SynRM)", value: "synchronous-reluctance-motor" },
+                { label: "Permanent Magnet DC Motor (PMDC)", value: "permanent-magnet-dc-motor" }
+            ]
+        },
         { label: "Range", value: "range", placeHolder: 'Eg. 230 KM' },
-        { label: "Battery type", value: "battery-type", placeHolder: "Eg. Lithium-ion" },
+        {
+            label: "Battery type", value: "battery-type", placeHolder: "Eg. Lithium-ion", isDropdown: true, options: [
+                { label: "Lithium-Ion (Li-Ion)", value: "lithium-ion" },
+                { label: "Lithium Iron Phosphate (LFP)", value: "lithium-iron-phosphate" },
+                { label: "Nickel-Metal Hydride (NiMH)", value: "nickel-metal-hydride" },
+                { label: "Nickel-Cadmium (NiCd)", value: "nickel-cadmium" },
+                { label: "Lead-Acid", value: "lead-acid" },
+                { label: "Solid-State Battery", value: "solid-state" },
+                { label: "Lithium-Polymer (Li-Po)", value: "lithium-polymer" },
+                { label: "Zinc-Air Battery", value: "zinc-air" }
+            ]
+        },
         { label: "Battery warranty", value: "battery-warranty", placeHolder: "Eg. 8 Years / 160,000 km" },
         { label: "Charging time (AC)", value: "charging-time-ac", placeHolder: "Eg. 6 hrs" },
         { label: "Charging time (DC)", value: "charging-time-dc", placeHolder: "Eg. 1 hr (0-80%)" },
-        { label: "Regenerative braking", value: "regenerative-braking", placeHolder: "Eg. Yes/No" },
-        { label: "Regenerative braking levels", value: "regenerative-braking-levels", placeHolder: "Eg. 3 Levels" },
-        { label: "Charging port", value: "charging-port", placeHolder: "Eg. CCS2" },
-        { label: "Charging options", value: "charging-options", placeHolder: "Eg. AC / DC Fast charging" },
+        { label: "Regenerative braking", value: "regenerative-braking", placeHolder: "Eg. Yes/No", isDropdown: true, options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }] },
+        {
+            label: "Regenerative braking levels", value: "regenerative-braking-levels", placeHolder: "Eg. 3 Levels", isDropdown: true, options: [
+                { label: "None", value: "none" },
+                { label: "Level 1 (Low)", value: "level-1" },
+                { label: "Level 2 (Medium)", value: "level-2" },
+                { label: "Level 3 (High)", value: "level-3" },
+                { label: "Adaptive / Auto", value: "adaptive" },
+                { label: "One-Pedal Drive", value: "one-pedal-drive" }
+            ]
+        },
+        {
+            label: "Charging port", value: "charging-port", placeHolder: "Eg. CCS2", isDropdown: true, options: [
+                { label: "Type 1 (J1772)", value: "type-1-j1772" },
+                { label: "Type 2 (Mennekes)", value: "type-2-mennekes" },
+                { label: "Combined Charging System 1 (CCS1)", value: "ccs1" },
+                { label: "Combined Charging System 2 (CCS2)", value: "ccs2" },
+                { label: "CHAdeMO", value: "chademo" },
+                { label: "GB/T", value: "gb-t" },
+                { label: "Tesla Supercharger (NACS)", value: "tesla-supercharger" },
+                { label: "Domestic 15A Plug", value: "domestic-15a-plug" },
+                { label: "Wall Box AC Charger", value: "wall-box-ac" }
+            ]
+        },
+        {
+            label: "Charging options", value: "charging-options", placeHolder: "Eg. AC / DC Fast charging", isDropdown: true, options: [
+                { label: "AC Slow Charging", value: "ac-slow-charging" },
+                { label: "AC Fast Charging", value: "ac-fast-charging" },
+                { label: "DC Fast Charging", value: "dc-fast-charging" },
+                { label: "DC Ultra-Fast Charging", value: "dc-ultra-fast-charging" },
+                { label: "Home Charging (Portable Charger)", value: "home-charging" },
+                { label: "Wall Box Charging", value: "wall-box-charging" },
+                { label: "Public AC Charging", value: "public-ac-charging" },
+                { label: "Public DC Fast Charging", value: "public-dc-fast-charging" },
+                { label: "Regenerative Braking Charge", value: "regenerative-charging" },
+                { label: "Battery Swapping", value: "battery-swapping" }
+            ]
+        },
     ],
     "fuel-and-performance": [
         { label: "Mileage ARAI", value: "mileage-arai", placeHolder: "Eg. 16.5 kmpl" },
         { label: "Fuel tank capacity", value: "fuel-tank-capacity", placeHolder: "Eg. 50 L" },
-        { label: "Emission norm compliance", value: "emission-norm-compliance", placeHolder: "Eg. BS6" },
+        {
+            label: "Emission norm compliance", value: "emission-norm-compliance", placeHolder: "Eg. BS6", isDropdown: true, options: [
+                { label: "BS-I (Bharat Stage I)", value: "bs-1" },
+                { label: "BS-II (Bharat Stage II)", value: "bs-2" },
+                { label: "BS-III (Bharat Stage III)", value: "bs-3" },
+                { label: "BS-IV (Bharat Stage IV)", value: "bs-4" },
+                { label: "BS-VI (Bharat Stage VI)", value: "bs-6" },
+                { label: "BS-VI Phase 2 (RDE Compliant)", value: "bs-6-phase-2" },
+                { label: "Electric (Zero Emission)", value: "electric-zero-emission" }
+            ]
+        },
         { label: "Top speed", value: "top-speed", placeHolder: "Eg. 180 km/h" },
     ],
     charging: [
         { label: "Charging time (15A Plug point)", value: "charging-time-15a-plug-point", placeHolder: "Eg. 8 hrs" },
         { label: "Charging time (7.2kW AC Fast charger)", value: "charging-time-7.2kw-ac-fast-charger", placeHolder: "Eg. 2 hrs" },
         { label: "Charging time", value: "charging-time", placeHolder: "Eg. 6 hrs" },
-        { label: "Fast charging", value: "fast-charging", placeHolder: "Eg. Yes/No" },
+        { label: "Fast charging", value: "fast-charging", placeHolder: "Eg. Yes/No", isDropdown: true, options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }] },
     ],
     "suspension-steering-brakes": [
         {

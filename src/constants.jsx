@@ -497,6 +497,95 @@ export const DROPDOWN_VALUES_MAP = {
     'plug-in-hybrid': 'Plug-in Hybrid (PHEV)',
     // 'electric': 'Electric (EV)',
     'hydrogen-fuel-cell': 'Hydrogen Fuel Cell',
+
+    // Fuel supply system
+    "mpfi": "MPFI (Multi Point Fuel Injection)",
+    "spfi": "SPFI (Single Point Fuel Injection)",
+    "direct-injection": "Direct Injection (DI)",
+    "crdi": "CRDI (Common Rail Direct Injection)",
+    "tdi": "TDI (Turbocharged Direct Injection)",
+    "gdi": "GDI (Gasoline Direct Injection)",
+    "carburetor": "Carburetor",
+    "idi": "IDI (Indirect Injection)",
+    "turbo-mpfi": "Turbo MPFI",
+    "efi": "EFI (Electronic Fuel Injection)",
+
+    // Valve configuration
+    "sohc": "SOHC (Single Overhead Camshaft)",
+    "dohc": "DOHC (Double Overhead Camshaft)",
+    "ohv": "OHV (Overhead Valve)",
+    "ohc": "OHC (Overhead Camshaft)",
+    "pushrod": "Pushrod",
+    "sv": "SV (Side Valve)",
+
+    // Gearbox speeds
+    "4-speed": "4 Speed",
+    "5-speed": "5 Speed",
+    "6-speed": "6 Speed",
+    "7-speed": "7 Speed",
+    "8-speed": "8 Speed",
+    "9-speed": "9 Speed",
+    "10-speed": "10 Speed",
+    "variable-speed-cvt": "Variable Speed (CVT)",
+
+    // Motor type
+    "permanent-magnet-synchronous-motor": "Permanent Magnet Synchronous Motor (PMSM)",
+    "ac-induction-motor": "AC Induction Motor (Asynchronous Motor)",
+    "brushless-dc-motor": "Brushless DC Motor (BLDC)",
+    "dc-series-motor": "DC Series Motor",
+    "switched-reluctance-motor": "Switched Reluctance Motor (SRM)",
+    "synchronous-reluctance-motor": "Synchronous Reluctance Motor (SynRM)",
+    "permanent-magnet-dc-motor": "Permanent Magnet DC Motor (PMDC)",
+
+    // Battery type
+    "lithium-ion": "Lithium-Ion (Li-Ion)",
+    "lithium-iron-phosphate": "Lithium Iron Phosphate (LFP)",
+    "nickel-metal-hydride": "Nickel-Metal Hydride (NiMH)",
+    "nickel-cadmium": "Nickel-Cadmium (NiCd)",
+    "lead-acid": "Lead-Acid",
+    "solid-state": "Solid-State Battery",
+    "lithium-polymer": "Lithium-Polymer (Li-Po)",
+    "zinc-air": "Zinc-Air Battery",
+
+    // Regererative braking levels
+    "none": "None",
+    "level-1": "Level 1 (Low)",
+    "level-2": "Level 2 (Medium)",
+    "level-3": "Level 3 (High)",
+    "adaptive": "Adaptive / Auto",
+    "one-pedal-drive": "One-Pedal Drive",
+
+    // Charging port values
+    "type-1-j1772": "Type 1 (J1772)",
+    "type-2-mennekes": "Type 2 (Mennekes)",
+    "ccs1": "Combined Charging System 1 (CCS1)",
+    "ccs2": "Combined Charging System 2 (CCS2)",
+    "chademo": "CHAdeMO",
+    "gb-t": "GB/T",
+    "tesla-supercharger": "Tesla Supercharger (NACS)",
+    "domestic-15a-plug": "Domestic 15A Plug",
+    "wall-box-ac": "Wall Box AC Charger",
+
+    // Charging options values
+    "ac-slow-charging": "AC Slow Charging",
+    "ac-fast-charging": "AC Fast Charging",
+    "dc-fast-charging": "DC Fast Charging",
+    "dc-ultra-fast-charging": "DC Ultra-Fast Charging",
+    "home-charging": "Home Charging (Portable Charger)",
+    "wall-box-charging": "Wall Box Charging",
+    "public-ac-charging": "Public AC Charging",
+    "public-dc-fast-charging": "Public DC Fast Charging",
+    "regenerative-charging": "Regenerative Braking Charge",
+    "battery-swapping": "Battery Swapping",
+
+    // Emission norm compliance
+    "bs-1": "BS-I (Bharat Stage I)",
+    "bs-2": "BS-II (Bharat Stage II)",
+    "bs-3": "BS-III (Bharat Stage III)",
+    "bs-4": "BS-IV (Bharat Stage IV)",
+    "bs-6": "BS-VI (Bharat Stage VI)",
+    "bs-6-phase-2": "BS-VI Phase 2 (RDE Compliant)",
+    "electric-zero-emission": "Electric (Zero Emission)"
 };
 
 
